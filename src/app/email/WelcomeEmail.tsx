@@ -6,17 +6,20 @@ import {
   Html,
   Preview,
 } from "@react-email/components";
+import { RenderEmail } from "./RenderEmail";
 
 export default function WelcomeEmail({ name }: { name: string }) {
   return (
-    <Html>
-      <Head />
-      <Preview>Hello {name}</Preview>
-      <Body>
-        <Container>
-          <Heading>Hello {name}</Heading>
-        </Container>
-      </Body>
-    </Html>
+    <RenderEmail>
+      <Html>
+        <Head />
+        <Preview>Hello</Preview>
+        <Body>
+          <Container>
+            <Heading>Hello</Heading>
+          </Container>
+        </Body>
+      </Html>
+    </RenderEmail>
   );
 }

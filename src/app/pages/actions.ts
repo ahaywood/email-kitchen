@@ -4,6 +4,7 @@ import { Resend } from "resend";
 import { env } from "cloudflare:workers";
 import { Constants } from "../shared/constants";
 import WelcomeEmail from "@/app/email/WelcomeEmail";
+import { renderToString } from "rwsdk/worker";
 
 export async function sendWelcomeEmail(formData: FormData) {
   const email = formData.get("email") as string;
@@ -14,11 +15,14 @@ export async function sendWelcomeEmail(formData: FormData) {
   }
 
   const resend = new Resend(env.RESEND_API);
+
+  console.log(await renderToString(WelcomeEmail({ name: email })));
+
   const { data, error } = await resend.emails.send({
     from: Constants.FORM_EMAIL,
     to: email,
     subject: "👋 Welcome",
-    react: WelcomeEmail({ name: email }),
+    html: await renderToString(WelcomeEmail({ name: email })),
   });
 
   if (error) {
